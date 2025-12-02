@@ -62,14 +62,45 @@ boton("FICHERO", 3, 0, mostrarPantallaFichero)
 boton("INFORME", 3, 1, mostrarPantallaInforme)
 
 # PANTALLA ALTAS
-Label(pantallaAltas, text="ALTAS", font=("Arial", 30))
-Entry(pantallaAltas, text="Nombre y apellidos").grid(row=0, column=0, columnspan=3, pady=10, sticky=EW)
-Entry(pantallaAltas, text="Fecha Inicio").grid(row=1, column=0, columnspan=1, pady=10)
-Entry(pantallaAltas, text="Fecha Nacimiento").grid(row=1, column=1, columnspan=1, pady=10)
-Entry(pantallaAltas, text="Dirección").grid(row=1, column=2, columnspan=2, pady=10)
-Entry(pantallaAltas, text="NIF").grid(row=2, column=0, columnspan=1, pady=10)
-Entry(pantallaAltas, text="Número de afiliación SS").grid(row=2, column=1, columnspan=1, pady=10)
+# 10 filas, 4 columnas
+Label(pantallaAltas, text="Nombre y apellidos").grid(row=0, column=0, columnspan=4, pady=10, sticky=EW)
+Entry(pantallaAltas).grid(row=1, column=1, columnspan=4, pady=10, sticky=EW)
 
+Label(pantallaAltas, text="Fecha Inicio").grid(row=2, column=0, columnspan=1, pady=10)
+Entry(pantallaAltas).grid(row=3, column=0, columnspan=1, pady=10)
+
+Label(pantallaAltas, text="Fecha Nacimiento").grid(row=2, column=1, columnspan=1, pady=10)
+Entry(pantallaAltas).grid(row=3, column=1, columnspan=1, pady=10)
+
+Label(pantallaAltas, text="Dirección").grid(row=2, column=2, columnspan=2, pady=10)
+Entry(pantallaAltas).grid(row=3, column=2, columnspan=2, pady=10)
+
+Label(pantallaAltas, text="NIF").grid(row=3, column=0, columnspan=1, pady=10)
+Entry(pantallaAltas).grid(row=4, column=0, columnspan=1, pady=10)
+
+Label(pantallaAltas, text="Número de afiliación SS").grid(row=3, column=2, columnspan=1, pady=10)
+Entry(pantallaAltas).grid(row=4, column=1, columnspan=1, pady=10)
+
+Label(pantallaAltas, text="Género").grid(row=5, column=0, columnspan=1, pady=10)
+Entry(pantallaAltas).grid(row=6, column=0, columnspan=1, pady=10)
+
+Label(pantallaAltas, text="Departamento").grid(row=5, column=3, columnspan=1, pady=10)
+Entry(pantallaAltas).grid(row=6, column=2, columnspan=2, pady=10)
+
+Label(pantallaAltas, text="Puesto").grid(row=5, column=3, columnspan=1, pady=10)
+Entry(pantallaAltas).grid(row=6, column=3, columnspan=1, pady=10)
+
+Label(pantallaAltas, text="Teléfono").grid(row=7, column=0, columnspan=1, pady=10)
+Entry(pantallaAltas).grid(row=8, column=0, columnspan=1, pady=10)
+
+Label(pantallaAltas, text="Email").grid(row=7, column=2, columnspan=1, pady=10)
+Entry(pantallaAltas).grid(row=8, column=2, columnspan=1, pady=10)
+
+Label(pantallaAltas, text="Salario").grid(row=9, column=0, columnspan=1, pady=10)
+Entry(pantallaAltas).grid(row=10, column=0, columnspan=1, pady=10)
+
+Label(pantallaAltas, text="Pagas extra").grid(row=9, column=2, columnspan=1, pady=10)
+Entry(pantallaAltas).grid(row=10, column=2, columnspan=1, pady=10)
 
 
 
