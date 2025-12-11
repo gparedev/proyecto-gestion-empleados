@@ -253,6 +253,11 @@ def insertar_empleado_relleno():
 
     if genero_validado not in ['hombre', 'mujer']:
         errores_insertar.append("Género debe ser 'hombre' o 'mujer'.")
+    
+    try:
+        salario_validado = float(salario_validado)
+    except ValueError:
+        errores_insertar.append("Salario mensual debe ser un número válido.")
 
     if errores_insertar:
         txt_validacion_altas.insert(tk.END, "Errores al insertar:\n" + "\n".join(errores_insertar))
