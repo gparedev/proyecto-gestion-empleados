@@ -29,15 +29,15 @@ def crear_tabla_empleados():
         fecha_nacimiento TEXT,   -- 'YYYY-MM-DD'
         direccion        TEXT,
         nif              TEXT,
-        naf              TEXT,   -- nº afiliación SS
-        genero           TEXT,   -- 'M' / 'F'
+        naf              TEXT,
+        genero           TEXT,
         departamento     TEXT,
         puesto           TEXT,
         telefono         TEXT,
-        salario_mensual  REAL,
+        salario_mensual  INTEGER,
         email            TEXT,
         num_pagas        INTEGER,  -- 12 + pagas extra
-        fecha_baja       TEXT      -- NULL si está en alta
+        fecha_baja       TEXT
     );
     """)
     conexion.commit()
@@ -228,36 +228,25 @@ txt_retribucion_media_hombres = tk.Text(pantallaInforme, height=3)
 txt_retribucion_media_hombres.grid(row=7, column=2, columnspan=1, rowspan=2, sticky=NSEW, pady=(10, 0))
 
 # LÓGICA
-def insertar_empleado_consulta(datos):
-    conexion = conexion_db()
-    cursor = conexion.cursor()
-    print(datos)
-
-    cursor.execute(""" INSERT INTO empleados
-            (codigo, apellidos_nombre, fecha_inicio, fecha_nacimiento, direccion, nif, naf, genero, departamento, puesto, telefono, salario_mensual, email, num_pagas, fecha_baja)
-            VALUES
-            (:codigo, :apellidos_nombre, :fecha_inicio, :fecha_nacimiento, :direccion, :nif, :naf, :genero, :departamento, :puesto, :telefono, :salario_mensual, :email, :num_pagas, NULL)
-            """, datos)
-    conexion.commit()
-    conexion.close()
-
+# insertar empleado
 def insertar_empleado_relleno():
-    # limpiar mensaje
-    txt_validacion_altas.delete("1.0", tk.END)
+  
+    txt_validacion_altas.delete("1.0", tk.END) # limpiar mensaje
 
     genero_validado = genero.get().strip().lower()
     salario_validado = salario_mensual.get().strip()
     pagas_extra_validado = pagas_extra.get().strip()
 
+
     errores_insertar = []
 
-    if genero_validado not in ['hombre', 'mujer']:
-        errores_insertar.append("Género debe ser 'hombre' o 'mujer'.")
-    
-    try:
-        salario_validado = float(salario_validado)
-    except ValueError:
+    if genero_validado not in ['m', 'f']:
+        errores_insertar.append("Género debe ser 'm' o 'f'.")
+    # convertimos a float para confirmar que es un número y luego a str para comparar con lo introducido por el usuario
+    if salario_validado not in [type(str(float(salario_validado))), str(int(float(salario_validado)))]:
         errores_insertar.append("Salario mensual debe ser un número válido.")
+    if pagas_extra_validado not in [type(str(int(pagas_extra_validado))), str(int(pagas_extra_validado))]:
+        errores_insertar.append("Número de pagas extra debe ser un número entero válido.")
 
     if errores_insertar:
         txt_validacion_altas.insert(tk.END, "Errores al insertar:\n" + "\n".join(errores_insertar))
@@ -289,7 +278,34 @@ def insertar_empleado_relleno():
     except Exception as e:
         txt_validacion_altas.insert(tk.END, f"ERROR al insertar: {e}")
 
+def insertar_empleado_consulta(datos):
+    conexion = conexion_db()
+    cursor = conexion.cursor()
+    print(datos)
+
+    cursor.execute(""" INSERT INTO empleados
+            (codigo, apellidos_nombre, fecha_inicio, fecha_nacimiento, direccion, nif, naf, genero, departamento, puesto, telefono, salario_mensual, email, num_pagas, fecha_baja)
+            VALUES
+            (:codigo, :apellidos_nombre, :fecha_inicio, :fecha_nacimiento, :direccion, :nif, :naf, :genero, :departamento, :puesto, :telefono, :salario_mensual, :email, :num_pagas, NULL)
+            """, datos)
+    conexion.commit()
+    conexion.close()
+
 btn_insertar_altas.config(command=insertar_empleado_relleno)
+
+# buscar empleado
+def buscar_empleado_relleno():
+    txt_validacion_buscar.delete("1.0", tk.END) # limpiar mensaje
+
+def buscar_empleado(codigo): # busvar empleado por código
+    conexion = conexion_db()
+    cursor = conexion.cursor()
+    cursor.execute("SELECT * FROM empleados WHERE codigo = ?", (codigo,))
+    fila = cursor.fetchone()
+    conexion.close()
+    return fila
+
+btn_carga_buscar.config(command=buscar_empleado)
 
 def generar_codigo():
     conexion = conexion_db()
@@ -302,20 +318,12 @@ def generar_codigo():
     else:
         return resultado[0] + 1
 
-def buscar_empleado(codigo): # busvar empleado por código
-    conexion = conexion_db()
-    cursor = conexion.cursor()
-    cursor.execute("SELECT * FROM empleados WHERE codigo = ?", (codigo,))
-    fila = cursor.fetchone()
-    conexion.close()
-    return fila
-
 def calcular_salario(salario_mensual, num_pagas): # calcular salario anual y prorrata pagas
     salario_anual = salario_mensual * num_pagas
     prorrata = salario_mensual * (num_pagas - 12) / 12
     return salario_anual, prorrata
 
-# de la pantalla informe
+# pantalla informe
 def numero_empleados():
     conexion = conexion_db()
     cursor = conexion.cursor()
