@@ -297,6 +297,11 @@ btn_insertar_altas.config(command=insertar_empleado_relleno)
 def buscar_empleado_relleno():
     txt_validacion_buscar.delete("1.0", tk.END) # limpiar mensaje
 
+    codigo_empleado = codigo_empleado.get().strip()
+
+    buscar_empleado(codigo_empleado)
+
+
 def buscar_empleado(codigo): # busvar empleado por código
     conexion = conexion_db()
     cursor = conexion.cursor()
@@ -351,7 +356,7 @@ def retribucion_media():
 def porcentaje_mujeres():
     conexion = conexion_db()
     cursor = conexion.cursor()
-    cursor.execute("SELECT COUNT(*) FROM empleados WHERE genero = 'F'")
+    cursor.execute("SELECT COUNT(*) FROM empleados WHERE genero = 'f'")
     mujeres = cursor.fetchone()[0]
     cursor.execute("SELECT COUNT(*) FROM empleados")
     total = cursor.fetchone()[0]
@@ -362,7 +367,7 @@ def porcentaje_mujeres():
 def numero_mujeres():
     conexion = conexion_db()
     cursor = conexion.cursor()
-    cursor.execute("SELECT COUNT(*) FROM empleados WHERE genero = 'F'")
+    cursor.execute("SELECT COUNT(*) FROM empleados WHERE genero = 'f'")
     mujeres = cursor.fetchone()[0]
     conexion.close()
     return mujeres
@@ -370,7 +375,7 @@ def numero_mujeres():
 def retribucion_media_mujeres():
     conexion = conexion_db()
     cursor = conexion.cursor()
-    cursor.execute("SELECT AVG(salario_mensual * num_pagas) FROM empleados WHERE genero = 'F'")
+    cursor.execute("SELECT AVG(salario_mensual * num_pagas) FROM empleados WHERE genero = 'f'")
     media = cursor.fetchone()[0]
     conexion.close()
     return media
@@ -378,7 +383,7 @@ def retribucion_media_mujeres():
 def porcentaje_hombres():
     conexion = conexion_db()
     cursor = conexion.cursor()
-    cursor.execute("SELECT COUNT(*) FROM empleados WHERE genero = 'M'")
+    cursor.execute("SELECT COUNT(*) FROM empleados WHERE genero = 'm'")
     hombres = cursor.fetchone()[0]
     cursor.execute("SELECT COUNT(*) FROM empleados")
     total = cursor.fetchone()[0]
@@ -389,7 +394,7 @@ def porcentaje_hombres():
 def numero_hombres():
     conexion = conexion_db()
     cursor = conexion.cursor()
-    cursor.execute("SELECT COUNT(*) FROM empleados WHERE genero = 'M'")
+    cursor.execute("SELECT COUNT(*) FROM empleados WHERE genero = 'm'")
     hombres = cursor.fetchone()[0]
     conexion.close()
     return hombres
@@ -397,7 +402,7 @@ def numero_hombres():
 def retribucion_media_hombres():
     conexion = conexion_db()
     cursor = conexion.cursor()
-    cursor.execute("SELECT AVG(salario_mensual * num_pagas) FROM empleados WHERE genero = 'M'")
+    cursor.execute("SELECT AVG(salario_mensual * num_pagas) FROM empleados WHERE genero = 'm'")
     media = cursor.fetchone()[0]
     conexion.close()
     return media
