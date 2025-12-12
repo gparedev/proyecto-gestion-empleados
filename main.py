@@ -25,8 +25,8 @@ def crear_tabla_empleados():
         id              INTEGER PRIMARY KEY AUTOINCREMENT,
         codigo          INTEGER UNIQUE,
         apellidos_nombre TEXT,
-        fecha_inicio     TEXT,   -- 'YYYY-MM-DD'
-        fecha_nacimiento TEXT,   -- 'YYYY-MM-DD'
+        fecha_inicio     TEXT,
+        fecha_nacimiento TEXT,
         direccion        TEXT,
         nif              TEXT,
         naf              TEXT,
@@ -36,7 +36,7 @@ def crear_tabla_empleados():
         telefono         TEXT,
         salario_mensual  INTEGER,
         email            TEXT,
-        num_pagas        INTEGER,  -- 12 + pagas extra
+        num_pagas        INTEGER,
         fecha_baja       TEXT
     );
     """)
@@ -312,6 +312,8 @@ def buscar_empleado(codigo): # busvar empleado por código
 
 btn_carga_buscar.config(command=buscar_empleado)
 
+# otra lógica
+# generar código de empleado
 def generar_codigo():
     conexion = conexion_db()
     cursor = conexion.cursor()
@@ -323,12 +325,13 @@ def generar_codigo():
     else:
         return resultado[0] + 1
 
-def calcular_salario(salario_mensual, num_pagas): # calcular salario anual y prorrata pagas
+# calcular salario anual y prorrata pagas
+def calcular_salario(salario_mensual, num_pagas):
     salario_anual = salario_mensual * num_pagas
     prorrata = salario_mensual * (num_pagas - 12) / 12
     return salario_anual, prorrata
 
-# pantalla informe
+# lógica pantalla informe
 def numero_empleados():
     conexion = conexion_db()
     cursor = conexion.cursor()
